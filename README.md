@@ -4,11 +4,11 @@ This app creates a local webserver which adds MTLS to your quoccabank requests, 
 
 ## Usage:
 
-1. Download this repo
+1. Clone this repo
 1. Download your p12 file using [mtls.quoccabank.com](https://mtls.quoccabank.com)
 1. Place the file inside this repo, and rename it to `quocca.p12`
 1. Create a new file called `pass.key` and paste the password for your p12 certificate inside it
-1. Download docker for your platform
+1. Download docker for your platform. You want [Docker Desktop](https://www.docker.com/products/docker-desktop/) on Windows and Mac and [Docker Engine](https://docs.docker.com/engine/install/#supported-platforms) for Linux (Docker Desktop for Linux is fine too)
 1. Run `docker compose up --build` inside this directory. This will start the server
 1. Edit your hosts file (`c:\Windows\System32\Drivers\etc\hosts` on windows, `/etc/hosts` on other systems). Add a line to forward a quoccabank site to 127.0.0.1.
 
