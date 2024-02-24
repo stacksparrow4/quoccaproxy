@@ -1,0 +1,5 @@
+services:
+  quoccaproxy:
+    build: .
+    ports:
+      - 80:80
