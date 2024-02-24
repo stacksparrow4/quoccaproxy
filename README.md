@@ -15,32 +15,40 @@ This app creates a local webserver which adds MTLS to your quoccabank requests, 
     Add the following line:
 
     ```
-    127.0.0.1 www.quoccabank.com haas.quoccabank.com
+    127.0.0.1 www.quoccabank.com haas.quoccabank.com whoami.quoccabank.com
     ```
 
     (You can add more subdomains here. You will need to update this file each time you want another site to be forwarded through the proxy)
-1. Once this is done, test it out by visiting [`http://www.quoccabank.com/`](http://www.quoccabank.com/) in a browser. Or even better, try using a command line tool. Without the proxy you should need to specify extra command line options to use mtls, but you should now be able to do `curl http://www.quoccabank.com` without any errors.
+1. Once this is done, test it out using `curl http://whoami.quoccabank.com`. **You should not need to specify any certificates**, and you should recieve the whoami flag. (This should also work in the browser, but it is easier to tell if you are sending certificates in the command line)
+1. You should also be able to see the requests inside the terminal in which you ran `docker compose up --build`.
+
+> Note: the proxy only listens on http. If you end up with https in the url (some browsers like to add it if you failed to connect to a site), it will not work. If you are having issues remember to check you are using http and not https.
 
 ## FAQ
 
 **Should I use this all the time?**
 
-I would recommend only enabling it if you want to do scripting or use command line tools and don't want to troubleshoot getting these tools to use your mtls certificate. Because of the way the setup works, only the sites listed in your hosts file will go through the proxy, everything else will be unaffected.
+I would recommend **only enabling it if you want to do scripting or use command line tools** and don't want to troubleshoot getting these tools to use your mtls certificate. Because of the way the setup works, only the sites listed in your hosts file will go through the proxy, everything else will be unaffected.
 
-**Help, quoccabank is no longer responding!**
+The reason why you should NOT use this:
 
-Your `docker compose up --build` command may have stopped. Simply run it again to start the webserver.
+1. You have to modify your hosts file for each site
+1. It may make tiny changes (eg. changing the order of HTTP headers) which may be important in later challenges
 
-If all else fails, you can remove the line you added from your hosts file to stop using the proxy altogether.
+**I can't connect to my proxied quoccabank site!**
 
-**Can't connect?**
+1. Your `docker compose up --build` command may have stopped. Simply run it again to start the webserver.
+1. Make sure you are using HTTP and not HTTPS. The proxy only listens on HTTP.
+1. If all else fails, you can remove the line you added from your hosts file to stop using the proxy altogether.
 
-Make sure you are using HTTP and not HTTPS. The proxy only listens on HTTP.
+**My browser is not connecting to quoccaproxy even though I added the /etc/hosts record**
+
+Your browser may be using DNS over HTTPS, in which case you will need to google on how to disable this.
 
 **SSL error in the browser?**
 
-The site may have a HSTS record. Google for "how to remove HSTS cache in <insert browser here>".
+The site may have a HSTS record. Google for `how to remove HSTS cache in <insert browser here>`.
 
 **Does this work with burp?**
 
-It should.
+Yes.
