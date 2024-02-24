@@ -19,4 +19,28 @@ This app creates a local webserver which adds MTLS to your quoccabank requests, 
     ```
 
     (You can add more subdomains here. You will need to update this file each time you want another site to be forwarded through the proxy)
-1. Once this is done, test it out by visiting [`http://www.quoccabank.com/`](http://www.quoccabank.com/) in a browser.
+1. Once this is done, test it out by visiting [`http://www.quoccabank.com/`](http://www.quoccabank.com/) in a browser. Or even better, try using a command line tool. Without the proxy you should need to specify extra command line options to use mtls, but you should now be able to do `curl http://www.quoccabank.com` without any errors.
+
+## FAQ
+
+**Should I use this all the time?**
+
+I would recommend only enabling it if you want to do scripting or use command line tools and don't want to troubleshoot getting these tools to use your mtls certificate. Because of the way the setup works, only the sites listed in your hosts file will go through the proxy, everything else will be unaffected.
+
+**Help, quoccabank is no longer responding!**
+
+Your `docker compose up --build` command may have stopped. Simply run it again to start the webserver.
+
+If all else fails, you can remove the line you added from your hosts file to stop using the proxy altogether.
+
+**Can't connect?**
+
+Make sure you are using HTTP and not HTTPS. The proxy only listens on HTTP.
+
+**SSL error in the browser?**
+
+The site may have a HSTS record. Google for "how to remove HSTS cache in <insert browser here>".
+
+**Does this work with burp?**
+
+It should.
